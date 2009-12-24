@@ -1,0 +1,31 @@
+pkczb:
+  database:
+    type: MySQL
+    database: pkczb_production
+    user: backup
+    password: q
+  files:
+    type: Directory
+    path: /home/pkczb-www/app
+
+amberbit.com:
+  database:
+    type: MySQL
+    database: amberbit
+  uploads:
+    type: Directory
+    path: /home/amberbit/uploads
+
+test:
+  database:
+    type: MySQL
+    database: br_development
+    user: backup
+    password: q
+    host:
+    port:
+    socket:
+  files:
+    type: Directory
+    path: /tmp/test_project
+

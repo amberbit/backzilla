@@ -1,0 +1,29 @@
+#!/usr/bin/ruby1.9
+
+$LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__) + '/../lib')
+
+require 'backzilla'
+require 'optparse'
+
+options = OpenStruct.new
+OptionParser.new do |cmd_options|
+  cmd_options.banner = "Usage: backzilla.rb [OPTIONS]"
+
+  cmd_options.on("-h", "--help", "Show this message") do
+    puts cmd_options
+    exit
+  end
+
+  cmd_options.on("-b", "--backup PROJECT_SPEC", "Backups PROJECT_SPEC") do |spec|
+    options.backup = true
+    options.spec = spec
+  end
+
+  cmd_options.on("-r", "--restore PROJECT_SPEC", "Restores PROJECT_SPEC") do |spec|
+    options.restore = true
+    options.spec = spec
+  end
+end.parse!
+
+Backzilla.run(options)
+

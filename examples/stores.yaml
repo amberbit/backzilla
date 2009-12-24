@@ -1,0 +1,12 @@
+gnupg_passphrase: '`a\bv/]|xDcsfEq,$X|y4:U=5y"{cqRE@RE<w0Mn3A?8DMNBVmF"ZxH]&w1_D4u'
+stores:
+  local:
+    type: Directory
+    path: /tmp/backups/server1
+#  my_ftp:
+#    type: FTP
+#    host: ubuntu-server
+#    user: backuper
+#    password: q
+#    path: /backup/production.amberbit.com
+
