@@ -28,7 +28,7 @@ module Backzilla
   def self.store(path)
     info "Storing #{path}..."
 
-    stores_file = File.expand_path(File.dirname(__FILE__)) + '/../stores.yaml'
+    stores_file = File.expand_path('~/.backzilla/stores.yaml')
     data = YAML.load_file stores_file
     Store.gnugpg_passphrase = data['gnupg_passphrase']
     stores = data['stores'].map do |store_name, store_options|
@@ -56,7 +56,7 @@ module Backzilla
       exit -1
     end
 
-    projects_file = File.expand_path(File.dirname(__FILE__)) + '/../projects.yaml'
+    projects_file = File.expand_path('~/.backzilla/projects.yaml')
     data = YAML.load_file projects_file
     if options.spec == 'all'
       raise 'Not implemented'
