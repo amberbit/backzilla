@@ -25,7 +25,7 @@ module Backzilla
   include Backzilla::Version
   extend Backzilla::LoggerHelper
 
-  def self.store(path)
+  def self.store(path, project_name, entity_name)
     info "Storing #{path}..."
 
     stores_file = File.expand_path('~/.backzilla/stores.yaml')
@@ -36,7 +36,7 @@ module Backzilla
       klass.new(store_name, store_options)
     end
 
-    stores.each { |s| s.put path }
+    stores.each { |s| s.put path, project_name, entity_name }
   end
 
   def self.logger

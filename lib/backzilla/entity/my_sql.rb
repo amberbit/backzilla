@@ -25,7 +25,7 @@ class Backzilla::Entity::MySQL < Backzilla::Entity
     cmd = "mysqldump #{mysql_options} #{@database} > #{filename}"
     execute cmd
 
-    Backzilla.store path
+    Backzilla.store path, project.name, self.name
 
     FileUtils.rm_rf path
   end

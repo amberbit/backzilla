@@ -15,10 +15,10 @@ class Backzilla::Store
     @@gnugpg_passphrase = value
   end
 
-  def put(source_path)
+  def put(source_path, project_name, entity_name)
     cmd =<<-CMD
       PASSPHRASE='#{@@gnugpg_passphrase}' #{env_options} \\
-      duplicity #{source_path} #{protocol}://#{uri}
+      duplicity #{source_path} #{protocol}://#{uri}/#{project_name}/#{entity_name}
     CMD
     execute cmd
   end
