@@ -19,6 +19,7 @@ Backzilla will look for ~/.backzilla/projects.yaml and ~/.backzilla/stores.yaml 
 Current state
 =============
 Backup part is generally done. Needs some polishing though. Restore isn't implemented yet. Probably the script should also catch CTRL+C or any other interruptions and perform some wise cleanup.
+- -m switch - move project_name to new_project_name or project_name:entity_name to new_project_name:new_entity_name in all stores
 
 Entities
 ========
