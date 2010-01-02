@@ -59,7 +59,13 @@ module Backzilla
     projects_file = File.expand_path('~/.backzilla/projects.yaml')
     data = YAML.load_file projects_file
     if options.spec == 'all'
-      raise 'Not implemented'
+      projects = data.inject([]) do |projects, project_data|
+        project_name, project_entities_data = *project_data
+        project = Project.new(project_name)
+        project.setup_entities data[project_name]
+        projects << project
+      end
+      projects.each { |p| options.restore ? p.restore : p.backup }
     else
       spec_parts = options.spec.split(':')
       project_name = spec_parts.shift

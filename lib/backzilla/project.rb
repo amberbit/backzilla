@@ -20,7 +20,7 @@ class Backzilla::Project
     end
   end
 
-  def backup(spec_parts)
+  def backup(spec_parts=[])
     info "Project #{name}:"
     if spec_parts.empty?
       @entities.each { |name, entity| entity.backup }
@@ -29,7 +29,7 @@ class Backzilla::Project
     end
   end
 
-  def restore(spec_parts)
+  def restore(spec_parts=[])
     info "Project #{name}:"
     if spec_parts.empty?
       @entities.each { |name, entity| entity.restore }
