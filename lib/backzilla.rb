@@ -69,10 +69,7 @@ module Backzilla
       end
 
       project = Project.new(project_name)
-      data[project_name].each do |entity_name, entity_data|
-        klass = Backzilla::Entity.const_get(entity_data['type'])
-        project << klass.new(entity_name, entity_data)
-      end
+      project.setup_entities data[project_name]
 
       if options.backup
         project.backup spec_parts

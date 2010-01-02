@@ -13,6 +13,13 @@ class Backzilla::Project
     @entities[entity.name] = entity
   end
 
+  def setup_entities(entities_data)
+    entities_data.each do |entity_name, entity_data|
+      klass = Backzilla::Entity.const_get(entity_data['type'])
+      self << klass.new(entity_name, entity_data)
+    end
+  end
+
   def backup(spec_parts)
     info "Project #{name}:"
     if spec_parts.empty?
