@@ -1,8 +1,11 @@
 class Backzilla::Entity
-  autoload :MySQL, 'backzilla/entity/my_sql'
   autoload :Directory, 'backzilla/entity/directory'
+  autoload :MongoDB, 'backzilla/entity/mongo_db'
+  autoload :MySQL, 'backzilla/entity/my_sql'
 
   include Backzilla::LoggerHelper
+
+  BASE_PATH = '/tmp/backzilla'
 
   attr_reader :name
   attr_accessor :project

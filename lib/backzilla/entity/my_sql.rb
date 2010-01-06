@@ -1,8 +1,6 @@
 class Backzilla::Entity::MySQL < Backzilla::Entity
   include Backzilla::Executor
 
-  BASE_PATH = '/tmp/backzilla'
-
   def initialize(name, options)
     super(name)
     @database = options['database']
