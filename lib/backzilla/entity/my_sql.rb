@@ -12,7 +12,7 @@ class Backzilla::Entity::MySQL < Backzilla::Entity
 
   def backup
     if @database.blank?
-      fatal "Database is blank"
+      fatal "Database name is blank"
       exit -1
     end
     backup_msg
