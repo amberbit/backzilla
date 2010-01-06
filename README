@@ -35,6 +35,7 @@ Backup part is generally done. Needs some polishing though. Restore isn't implem
       entity3:
         ...
   in such case amberbit-www entity3 would be accessed like this amberbit:www:entity3
+- -r BACKUP_PATH - removes this backup from all stores
 
 Entities
 ========
