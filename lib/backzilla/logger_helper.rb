@@ -10,7 +10,7 @@ module Backzilla::LoggerHelper
     severity = Logger.const_get(method_name.to_s.upcase)
     define_method(method_name) do |msg|
       unless Backzilla.options.quiet
-        log Logger::WARN, msg
+        log severity, msg
       end
     end
   end
