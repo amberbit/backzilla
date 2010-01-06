@@ -47,7 +47,13 @@ module Backzilla
     @logger
   end
 
+  def self.options
+    @@options
+  end
+
   def self.run(options)
+    @@options = options
+
     if options.backup && options.restore
       fatal "Use -r or -b separately"
       exit -1
