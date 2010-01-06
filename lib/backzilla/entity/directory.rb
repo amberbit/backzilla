@@ -6,10 +6,7 @@ class Backzilla::Entity::Directory < Backzilla::Entity
 
   def backup
     backup_msg
-    if @path.blank?
-      fatal 'path option missing'
-      exit -1
-    end
+    validate_path
 
     Backzilla.store @path, project.name, self.name
 
@@ -18,7 +15,24 @@ class Backzilla::Entity::Directory < Backzilla::Entity
 
   def restore
     restore_msg
-    raise 'Not implemented'
+    validate_path
+
+    Backzilla.retrieve @path, project.name, self.name
+
+    @path
+  end
+
+  private
+
+  def validate_path
+    if @path.blank?
+      fatal 'path option missing'
+      exit -1
+    end
+    unless File.exist?(@path)
+      fatal "path doesn't exist"
+      exit -1
+    end
   end
 end
 
