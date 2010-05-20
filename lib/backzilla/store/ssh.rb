@@ -11,7 +11,7 @@ class Backzilla::Store::SSH < Backzilla::Store
 
   def put(source_path, project_name, entity_name)
     Net::SSH.start(@host, @user ) do |ssh|
-      ssh.exec "mkdir -p " + @path.to_s + "#{project_name}/#{entity_name}"
+      ssh.exec "mkdir -p " + @path.to_s + "/#{project_name}/#{entity_name}"
     end
     super
   end
