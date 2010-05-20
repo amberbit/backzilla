@@ -1,5 +1,4 @@
 require 'net/ssh'
-require 'net/sftp'
 
 class Backzilla::Store::SSH < Backzilla::Store
   def initialize(name, options)
