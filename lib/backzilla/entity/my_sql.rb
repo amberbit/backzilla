@@ -30,7 +30,15 @@ class Backzilla::Entity::MySQL < Backzilla::Entity
 
   def restore
     restore_msg
-    raise 'Not implemented'
+    path = Pathname.new(BASE_PATH) + project.name + name
+    FileUtils.mkdir_p path
+    filename = path + "#{@database}.sql"
+
+    Backzilla.restore path, project.name, self.name
+    
+    cmd = "mysql #{mysql_options} #{@database} <"+filename
+    execute cmd
+    FileUtils.rm_rf path
   end
 
   private
