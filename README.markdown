@@ -26,6 +26,7 @@ To backup a whole project or single entity:
 Current state aka TODOs
 =======================
 Backup part is generally done. Needs some polishing and specs. Restore isn't implemented completely. Probably the script should also catch CTRL+C or any other interruptions and perform some wise cleanup.
+
 - -m switch - move project_name to new_project_name or project_name:entity_name to new_project_name:new_entity_name in all stores
 - always backup ~/.backzilla too
 - allow projects nesting, eg
