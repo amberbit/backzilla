@@ -24,12 +24,12 @@ class Backzilla::Store
     execute cmd
   end
 
-  def get(destination_path)
+  def get(source_path, project_name, entity_name)
     cmd =<<-CMD
       PASSPHRASE='#{@@gnugpg_passphrase}' #{env_options} \\
-      duplicity #{protocol}://#{uri} #{destination_path}
+      duplicity restore #{protocol}://#{uri}/#{project_name}/#{entity_name} #{source_path}
     CMD
-    excute cmd
+    execute cmd
   end
 
   private

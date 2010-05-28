@@ -38,6 +38,20 @@ module Backzilla
 
     stores.each { |s| s.put path, project_name, entity_name }
   end
+  
+  def self.restore(path, project_name, entity_name)
+    info "Restoring #{path}..."
+
+    restores_file = File.expand_path('~/.backzilla/stores.yaml')
+    data = YAML.load_file restores_file
+    Store.gnugpg_passphrase = data['gnupg_passphrase']
+    stores = data['stores'].map do |store_name, store_options|
+      klass = Backzilla::Store.const_get(store_options['type'])
+      klass.new(store_name, store_options)
+    end
+
+    stores.each { |s| s.get path, project_name, entity_name }
+  end
 
   def self.logger
     return @logger if @logger

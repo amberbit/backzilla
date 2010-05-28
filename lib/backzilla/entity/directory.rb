@@ -17,7 +17,7 @@ class Backzilla::Entity::Directory < Backzilla::Entity
     restore_msg
     validate_path
 
-    Backzilla.retrieve @path, project.name, self.name
+    Backzilla.restore @path, project.name, self.name
 
     @path
   end
