@@ -25,10 +25,13 @@ module Backzilla
   include Backzilla::Version
   extend Backzilla::LoggerHelper
 
+  STORES_CONFIG = ENV["BACKZILLA_STORES_CONFIG"] || "~/.backzilla/stores.yaml"
+  PROJECTS_CONFIG = ENV["BACKZILLA_PROJECTS_CONFIG"] || "~/.backzilla/projects.yaml"
+
   def self.store(path, project_name, entity_name)
     info "Storing #{path}..."
 
-    stores_file = File.expand_path('~/.backzilla/stores.yaml')
+    stores_file = File.expand_path STORES_CONFIG
     data = YAML.load_file stores_file
     Store.gnugpg_passphrase = data['gnupg_passphrase']
     stores = data['stores'].map do |store_name, store_options|
@@ -42,7 +45,7 @@ module Backzilla
   def self.restore(path, project_name, entity_name)
     info "Restoring #{path}..."
 
-    restores_file = File.expand_path('~/.backzilla/stores.yaml')
+    restores_file = File.expand_path STORES_CONFIG
     data = YAML.load_file restores_file
     Store.gnugpg_passphrase = data['gnupg_passphrase']
     stores = data['stores'].map do |store_name, store_options|
@@ -76,7 +79,7 @@ module Backzilla
       exit -1
     end
 
-    projects_file = File.expand_path('~/.backzilla/projects.yaml')
+    projects_file = File.expand_path PROJECTS_CONFIG
     data = YAML.load_file projects_file
     if options.spec == 'all'
       projects = data.inject([]) do |projects, project_data|

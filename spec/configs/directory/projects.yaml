@@ -1,0 +1,5 @@
+test:
+  files:
+    type: Directory
+    path: tmp/directory
+

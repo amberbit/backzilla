@@ -1,0 +1,6 @@
+gnupg_passphrase: 'some_password'
+stores:
+  local:
+    type: Directory
+    path: tmp/backups/directory_backup
+
