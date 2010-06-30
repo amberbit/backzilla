@@ -26,7 +26,15 @@ class Backzilla::Entity::MongoDB < Backzilla::Entity
 
   def restore
     restore_msg
-    raise 'Not implemented'
+    path = Pathname.new(BASE_PATH) + project.name + name
+    FileUtils.mkdir_p path
+
+    Backzilla.restore path, project.name, self.name
+
+    cmd = "mongorestore --drop -d #{@database} #{path}/#{@database}"
+    execute cmd
+
+    FileUtils.rm_rf path
   end
 end
 

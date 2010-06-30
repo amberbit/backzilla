@@ -4,11 +4,13 @@ module Backzilla::Executor
     pid, stdin, stdout, stderr = Open4.popen4(cmd)
     ignored, status = Process::waitpid2 pid
     out = stdout.read
-    debug out
+    debug out unless out.blank?
+    err = stderr.read
     if status.exitstatus != 0
-      err = stderr.read
       fatal err unless err.blank?
       exit -1
+    else
+      debug err unless err.blank?
     end
   end
 end
