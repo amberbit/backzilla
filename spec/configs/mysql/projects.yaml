@@ -1,0 +1,7 @@
+test:
+  databass:
+    type: MySQL
+    database: backzilla_test
+    user: root
+    password: root
+

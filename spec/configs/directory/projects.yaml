@@ -1,5 +1,5 @@
 test:
   files:
     type: Directory
-    path: tmp/directory
+    path: /tmp/backzilla/directory
 

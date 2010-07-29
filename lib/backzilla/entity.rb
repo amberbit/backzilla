@@ -21,11 +21,11 @@ class Backzilla::Entity
   end
 
   def backup_msg
-    info "[#{self.class.demodulize}] Backing up #{name}..."
+    info "Project name: [#{name}]. Type of backing up files: [#{self.class.demodulize}]"
   end
 
   def restore_msg
-    info "[#{self.class.demodulize}] Restoring #{name}..."
+    info "Project name: [#{name}]. Type of restoring files: [#{self.class.demodulize}]"
   end
 end
 

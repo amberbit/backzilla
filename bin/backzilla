@@ -5,9 +5,9 @@ $LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__) + '/../lib')
 require 'backzilla'
 require 'optparse'
 
-options = OpenStruct.new
-options.quiet = false
-options.debug = false
+options = {}
+options[:quiet] = false
+options[:debug] = false
 
 OptionParser.new do |cmd_options|
   cmd_options.banner = "Usage: backzilla.rb [OPTIONS]"
@@ -18,21 +18,21 @@ OptionParser.new do |cmd_options|
   end
 
   cmd_options.on("-b", "--backup PROJECT_SPEC", "Backups PROJECT_SPEC") do |spec|
-    options.backup = true
-    options.spec = spec
+    options[:backup] = true
+    options[:spec] = spec
   end
 
   cmd_options.on("-r", "--restore PROJECT_SPEC", "Restores PROJECT_SPEC") do |spec|
-    options.restore = true
-    options.spec = spec
+    options[:restore] = true
+    options[:spec] = spec
   end
 
   cmd_options.on("-q", "--quite", "Supress log messages with level lower than ERROR") do |spec|
-    options.quiet = true
+    options[:quiet] = true
   end
 
   cmd_options.on("-d", "--debug", "Run in debug mode") do |spec|
-    options.debug = true
+    options[:debug] = true
   end
 end.parse!
 

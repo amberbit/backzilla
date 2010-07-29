@@ -1,0 +1,5 @@
+test:
+  databass:
+    type: MongoDB
+    database: backzilla_test
+

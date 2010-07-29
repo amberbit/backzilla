@@ -3,4 +3,9 @@ stores:
   local:
     type: Directory
     path: spec/backups/directory_backup/local
+#  my_ssh:
+#    type: SSH
+#    host: localhost
+#    user: sobol
+#    path: spec/backups/directory_backup/SSH
 

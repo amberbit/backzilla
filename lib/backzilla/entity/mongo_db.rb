@@ -1,4 +1,3 @@
-#mongodump -d tree_test -o /tmp
 class Backzilla::Entity::MongoDB < Backzilla::Entity
   include Backzilla::Executor
 
@@ -7,7 +6,7 @@ class Backzilla::Entity::MongoDB < Backzilla::Entity
     @database = options['database']
   end
 
-  def backup
+  def prepare_backup
     if @database.blank?
       fatal "Database name is blank"
       exit -1
@@ -15,11 +14,23 @@ class Backzilla::Entity::MongoDB < Backzilla::Entity
     backup_msg
     path = Pathname.new(BASE_PATH) + project.name + name
     FileUtils.mkdir_p path
-
     cmd = "mongodump -d #{@database} -o #{path}"
     execute cmd
+    path
+  end
 
+  def backup
+    prepare_backup
+    path = Pathname.new(BASE_PATH) + project.name + name
     Backzilla.store path, project.name, self.name
+
+    FileUtils.rm_rf path
+  end
+
+  def finalize_restore(options={})
+    path = options[:path]
+    cmd = "mongorestore --drop -d #{@database} #{path}/#{@database}"
+    execute cmd
 
     FileUtils.rm_rf path
   end
@@ -30,11 +41,7 @@ class Backzilla::Entity::MongoDB < Backzilla::Entity
     FileUtils.mkdir_p path
 
     Backzilla.restore path, project.name, self.name
-
-    cmd = "mongorestore --drop -d #{@database} #{path}/#{@database}"
-    execute cmd
-
-    FileUtils.rm_rf path
+    finalize_restore(:path => path)
   end
 end
 

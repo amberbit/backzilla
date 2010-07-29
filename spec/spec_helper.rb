@@ -1,4 +1,6 @@
 require 'fileutils'
+$LOAD_PATH.unshift "lib"
+require "backzilla"
 
 Spec::Runner.configure do |config|
   # == Mock Framework
@@ -14,29 +16,32 @@ Spec::Runner.configure do |config|
   #
   # For more information take a look at Spec::Example::Configuration and Spec::Runner
 
-  config.before(:all) do
-    FileUtils.rm_rf "tmp"
-    FileUtils.mkdir_p "tmp"
-  end
-
   def prefix_configs(prefix)
     @prefix = prefix
   end
 
   def run_backzilla(options)
-    cmd = "./bin/backzilla #{options}"
+    option = options[:option]
+    cmd = "./bin/backzilla #{option} #{options[:project_name]}"
     if @prefix
       cmd = "BACKZILLA_STORES_CONFIG=spec/configs/#{@prefix}/stores.yaml " + cmd
       cmd = "BACKZILLA_PROJECTS_CONFIG=spec/configs/#{@prefix}/projects.yaml " + cmd
     end
+    `sh -c "#{cmd}"`
+  end
+
+  def directory_path
+    if !File.exist? "/tmp/backzilla/#{@prefix}"
+      if !File.exist? "/tmp/backzilla"
+        FileUtils.mkdir "/tmp/backzilla"
+      end
+      FileUtils.mkdir "/tmp/backzilla/#{@prefix}"
+    end
+    "/tmp/backzilla/#{@prefix}"
   end
 
   def setup_directory
-    FileUtils.mkdir_p "tmp/directory/some/nested/stuff"
-    [ "tmp/directory/a.txt", "tmp/directory/b.txt", 
-      "tmp/directory/some/nested/stuff/c.txt" ].each do |filename|
-      FileUtils.touch filename
-    end
+    FileUtils.cp_r "spec/fixtures/directory", "/tmp/backzilla/"
   end
 end
- 
+

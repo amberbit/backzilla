@@ -21,8 +21,10 @@ module Backzilla
   autoload :Store, 'backzilla/store'
   autoload :Executor, 'backzilla/executor'
   autoload :Version, 'backzilla/version'
+  autoload :Configuration, 'backzilla/configuration'
 
   include Backzilla::Version
+  include Backzilla::Executor
   extend Backzilla::LoggerHelper
 
   STORES_CONFIG = ENV["BACKZILLA_STORES_CONFIG"] || "~/.backzilla/stores.yaml"
@@ -41,7 +43,7 @@ module Backzilla
 
     stores.each { |s| s.put path, project_name, entity_name }
   end
-  
+
   def self.restore(path, project_name, entity_name)
     info "Restoring #{path}..."
 
@@ -65,32 +67,35 @@ module Backzilla
   end
 
   def self.options
-    @@options
+    Backzilla::Configuration.instance
   end
 
   def self.run(options)
-    @@options = options
+    config = Backzilla::Configuration.instance
+    options.each do |key, value|
+      config.send "#{key}=", value
+    end
 
-    if options.backup && options.restore
+    if config.backup && config.restore
       fatal "Use -r or -b separately"
       exit -1
-    elsif !options.backup && !options.restore
+    elsif !config.backup && !config.restore
       fatal "-r or -b required"
       exit -1
     end
 
     projects_file = File.expand_path PROJECTS_CONFIG
     data = YAML.load_file projects_file
-    if options.spec == 'all'
+    if config.spec == 'all'
       projects = data.inject([]) do |projects, project_data|
         project_name, project_entities_data = *project_data
         project = Project.new(project_name)
         project.setup_entities data[project_name]
         projects << project
       end
-      projects.each { |p| options.restore ? p.restore : p.backup }
+      projects.each { |p| config.restore ? p.restore : p.backup }
     else
-      spec_parts = options.spec.split(':')
+      spec_parts = config.spec.split(':')
       project_name = spec_parts.shift
       unless data[project_name]
         fatal "No such project '#{project_name}'"
@@ -100,9 +105,9 @@ module Backzilla
       project = Project.new(project_name)
       project.setup_entities data[project_name]
 
-      if options.backup
+      if config.backup
         project.backup spec_parts
-      elsif options.restore
+      elsif config.restore
         project.restore spec_parts
       end
     end

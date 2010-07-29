@@ -10,7 +10,7 @@ class Backzilla::Entity::MySQL < Backzilla::Entity
     }
   end
 
-  def backup
+  def prepare_backup
     if @database.blank?
       fatal "Database name is blank"
       exit -1
@@ -22,23 +22,35 @@ class Backzilla::Entity::MySQL < Backzilla::Entity
 
     cmd = "mysqldump #{mysql_options} #{@database} > #{filename}"
     execute cmd
+    filename
+  end
 
+  def backup
+    prepare_backup
+    path = Pathname.new(BASE_PATH) + project.name + name
     Backzilla.store path, project.name, self.name
 
     FileUtils.rm_rf path
   end
 
+  def finalize_restore(options={})
+    path = options[:path] + "*.sql"
+    Dir.glob(path).each do |dir|
+      cmd = "mysql #{mysql_options} #{@database} <"+dir
+      execute cmd
+    end
+    FileUtils.rm_rf options[:path]
+  end
+
   def restore
+    filename = ""
     restore_msg
     path = Pathname.new(BASE_PATH) + project.name + name
     FileUtils.mkdir_p path
     filename = path + "#{@database}.sql"
 
     Backzilla.restore path, project.name, self.name
-    
-    cmd = "mysql #{mysql_options} #{@database} <"+filename
-    execute cmd
-    FileUtils.rm_rf path
+    finalize_restore(:path => path)
   end
 
   private

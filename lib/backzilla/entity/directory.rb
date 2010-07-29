@@ -4,21 +4,29 @@ class Backzilla::Entity::Directory < Backzilla::Entity
     @path = options['path']
   end
 
-  def backup
+  def prepare_backup
     backup_msg
     validate_path
+    @path
+  end
 
+  def backup
+    prepare_backup
     Backzilla.store @path, project.name, self.name
+    @path
+  end
 
+  def finalize_restore
+    restore_msg
+    validate_path
     @path
   end
 
   def restore
-    restore_msg
-    validate_path
-
+    finalize_restore
+    FileUtils.rm_rf @path
+    FileUtils.mkdir @path
     Backzilla.restore @path, project.name, self.name
-
     @path
   end
 
