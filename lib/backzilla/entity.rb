@@ -20,12 +20,12 @@ class Backzilla::Entity
     to_s.split('::').last
   end
 
-  def backup_msg
-    info "Project name: [#{name}]. Type of backing up files: [#{self.class.demodulize}]"
+  def backup_msg(options={})
+      info "Project name: [#{name}]. Type of backing up files: [#{self.class.demodulize}]"
   end
 
-  def restore_msg
-    info "Project name: [#{name}]. Type of restoring files: [#{self.class.demodulize}]"
+  def restore_msg(options={})
+      info "Project name: [#{name}]. Type of restoring files: [#{self.class.demodulize}]"
   end
 end
 

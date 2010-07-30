@@ -15,7 +15,6 @@ class Backzilla::Entity::MySQL < Backzilla::Entity
       fatal "Database name is blank"
       exit -1
     end
-    backup_msg
     path = Pathname.new(BASE_PATH) + project.name + name
     FileUtils.mkdir_p path
     filename = path + "#{@database}.sql"
@@ -27,6 +26,7 @@ class Backzilla::Entity::MySQL < Backzilla::Entity
 
   def backup
     prepare_backup
+    backup_msg
     path = Pathname.new(BASE_PATH) + project.name + name
     Backzilla.store path, project.name, self.name
 

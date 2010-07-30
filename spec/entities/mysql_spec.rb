@@ -3,7 +3,7 @@ require 'spec/spec_helper'
 PROJECTS_CONFIG = 'spec/configs/mysql/projects.yaml'
 STORES_CONFIG = 'spec/configs/mysql/stores.yaml'
 
-def create_database
+def create_mysql_database
     cmd =<<-CMD
       echo "create database backzilla_test;
             create table backzilla_test.users
@@ -42,7 +42,7 @@ def create_database
     system(cmd)
   end
 
-  def modify_database
+  def modify_mysql_database
     cmd =<<-CMD
       echo "update backzilla_test.users set
               name = 'Kacper the friendly ghoust'
@@ -52,20 +52,12 @@ def create_database
     system(cmd)
   end
 
-  def drop_table
-    cmd =<<-CMD
-      echo "drop table backzilla_test.users; " |\
-      mysql -u #{$user} -p#{$password}
-    CMD
-    system(cmd)
-  end
-
-  def drop_database
+  def drop_mysql_database
     cmd =<<-CMD
       echo "drop database backzilla_test; " |\
       mysql -u #{$user} -p#{$password}
     CMD
-    system(cmd)
+    `#{cmd}`
   end
 
 describe "Backzilla", "mysql", "backup preparation" do
@@ -80,7 +72,7 @@ describe "Backzilla", "mysql", "backup preparation" do
           @mysql = Backzilla::Entity::MySQL.new('test', entity_data)
         end
       end
-      create_database
+      create_mysql_database
     @mysql.project = Backzilla::Project.new('test')
   end
 
@@ -117,11 +109,11 @@ describe "Backzilla", "mysql", "finalize restore" do
   end
 
   after(:all) do
-    drop_database
+    drop_mysql_database
   end
 
   it "should restore mysql database from given file" do
-    modify_database
+    modify_mysql_database
     @mysql.finalize_restore(:path => '/tmp/backzilla/test/test/')
     cmd =<<-CMD
       echo "select * from backzilla_test.users; " |\

@@ -2,7 +2,7 @@ require 'spec/spec_helper'
 
 PROJECTS_CONFIG = 'spec/configs/mysql/projects.yaml'
 
-def create_database
+def create_mongodb_database
   cmd =<<-CMD
     echo "use backzilla_test
           db.users.insert({name: 'Paweł', email: 'cokolwiek@amberbit.com', password: 'qweqwe'})
@@ -13,26 +13,26 @@ def create_database
           db.users.insert({name: 'Hubert', email: 'cokolwiek@amberbit.com', password: 'qweqwe'})" |\
     mongo
   CMD
-  system(cmd)
+  `#{cmd}`
 end
 
-def modify_database
+def modify_mongodb_database
    cmd =<<-CMD
      echo "use backzilla_test
            db.users.update({name: \\"Paweł\\"},{\\$set:{name: \\"Wiesław\\"}})
            db.users.find()" |\
      mongo
    CMD
-   system(cmd)
+   `#{cmd}`
 end
 
-def drop_database
+def drop_mongodb_database
   cmd =<<-CMD
     echo "use backzilla_test
           db.dropDatabase()" |\
     mongo
   CMD
-  system(cmd)
+  `#{cmd}`
 end
 
 describe "Backzilla", "mongodb", "backup preparation" do
@@ -45,7 +45,7 @@ describe "Backzilla", "mongodb", "backup preparation" do
           @mongodb = Backzilla::Entity::MongoDB.new('test', entity_data)
         end
       end
-      create_database
+      create_mongodb_database
     @mongodb.project = Backzilla::Project.new('test')
   end
 
@@ -75,11 +75,11 @@ describe "Backzilla", "mongodb", "finalize restore" do
   end
 
   after(:all) do
-    drop_database
+    drop_mongodb_database
   end
 
   it "should restore database from given file" do
-    modify_database
+    modify_mongodb_database
     @mongodb.finalize_restore(:path => '/tmp/backzilla/test/test/')
     cmd =<<-CMD
       echo "use backzilla_test

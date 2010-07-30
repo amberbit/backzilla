@@ -11,7 +11,6 @@ class Backzilla::Entity::MongoDB < Backzilla::Entity
       fatal "Database name is blank"
       exit -1
     end
-    backup_msg
     path = Pathname.new(BASE_PATH) + project.name + name
     FileUtils.mkdir_p path
     cmd = "mongodump -d #{@database} -o #{path}"
@@ -21,6 +20,7 @@ class Backzilla::Entity::MongoDB < Backzilla::Entity
 
   def backup
     prepare_backup
+    backup_msg
     path = Pathname.new(BASE_PATH) + project.name + name
     Backzilla.store path, project.name, self.name
 

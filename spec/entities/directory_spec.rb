@@ -27,7 +27,7 @@ describe "Backzilla", "Directory" do
     cmd =<<-CMD
       find #{directory_path} -type f -print0 | xargs -0 md5sum >> spec/fixtures/file.md5
     CMD
-    system(cmd)
+    `#{cmd}`
     run_backzilla(:option => "-b", :project_name => "test")
   end
 
