@@ -9,23 +9,35 @@ It can backup multiple entities (for example: MySQL database, directory, etc) to
 
 Usage
 =====
-No gem available currently, so:
+To install gem type:
 
-    git clone git://github.com/amberbit/backzilla.git
+    gem install backzilla
 
-Backzilla will look for ~/.backzilla/projects.yaml and ~/.backzilla/stores.yaml files. Just copy from /examples and customize. Be sure to generate your own GNU PGP passphrase and put it to stores.yaml.
+Backzilla will look for ~/.backzilla/projects.yaml and ~/.backzilla/stores.yaml files. You can copy them from /examples and customize for your oun purpose. Be sure to generate your own GNU PGP passphrase and put it to stores.yaml. It's basic of storing and restorign security of your backups.
 
 To backup all entities:
 
-    backzilla/bin/backzilla -b all
+    backzilla -b all
 
 To backup a whole project or single entity:
 
-    backzilla/bin/backzilla -b project_name[:entity_name]
+    backzilla -b project_name[:entity_name]
+
+To restore all entities:
+
+    backzilla -r all
+
+To backup a whole project or single entity:
+
+    backzilla -r project_name[:entity_name]
+
+For other options type:
+
+    backzilla -h
 
 Current state aka TODOs
 =======================
-Backup part is generally done. Needs some polishing and specs. Restore isn't implemented completely. Probably the script should also catch CTRL+C or any other interruptions and perform some wise cleanup.
+Backup and restore works correctly. Same goes with te rspec tests.
 
 - -m switch - move project_name to new_project_name or project_name:entity_name to new_project_name:new_entity_name in all stores
 - always backup ~/.backzilla too
@@ -49,16 +61,16 @@ Backup part is generally done. Needs some polishing and specs. Restore isn't imp
   in such case amberbit-www entity3 would be accessed like this amberbit:www:entity3
 - -rm BACKUP_PATH - removes this backup from all stores
 - if not present, sample config files should be created
-- add more entity types
-- add more store types
 
-Supported entity types
+We are planning to add some more entity and store types to extend backzilla options.
+
+Currently supported entity types
 ======================
 - MySQL
 - MongoDB
 - Directory
 
-Supported store types
+Currently supported store types
 =====================
 - FTP
 - SSH
