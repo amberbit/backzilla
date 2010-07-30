@@ -44,7 +44,6 @@ Gem::Specification.new do |s|
      "lib/backzilla/store/ftp.rb",
      "lib/backzilla/store/ssh.rb",
      "lib/backzilla/version.rb",
-     "pkg/backzilla-0.0.1.gem",
      "spec/configs/directory/projects.yaml",
      "spec/configs/directory/stores.yaml",
      "spec/configs/mongodb/projects.yaml",
