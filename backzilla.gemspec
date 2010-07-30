@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
      "README.markdown",
      "Rakefile",
      "VERSION",
+     "backzilla.gemspec",
      "bin/backzilla",
      "examples/projects.yaml",
      "examples/stores.yaml",
@@ -43,7 +44,7 @@ Gem::Specification.new do |s|
      "lib/backzilla/store/ftp.rb",
      "lib/backzilla/store/ssh.rb",
      "lib/backzilla/version.rb",
-     "spec/backzilla_spec.rb",
+     "pkg/backzilla-0.0.1.gem",
      "spec/configs/directory/projects.yaml",
      "spec/configs/directory/stores.yaml",
      "spec/configs/mongodb/projects.yaml",
@@ -66,8 +67,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Multi-purpose backup tool}
   s.test_files = [
-    "spec/backzilla_spec.rb",
-     "spec/spec_helper.rb",
+    "spec/spec_helper.rb",
      "spec/entities/directory_spec.rb",
      "spec/entities/mysql_spec.rb",
      "spec/entities/mongodb_spec.rb"
