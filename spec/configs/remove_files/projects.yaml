@@ -1,0 +1,10 @@
+test1:
+  files:
+    type: Directory
+    path: /tmp/backzilla/directory
+
+test2:
+  MongoDB_database:
+    type: MongoDB
+    database: backzilla_test
+

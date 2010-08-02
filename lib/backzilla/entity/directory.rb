@@ -30,6 +30,11 @@ class Backzilla::Entity::Directory < Backzilla::Entity
     @path
   end
 
+  def remove
+    Backzilla.remove @path, project.name, self.name
+    @path
+  end
+
   private
 
   def validate_path

@@ -1,0 +1,11 @@
+gnupg_passphrase: '`a\bv/]|xDcsfEq,$X|y4:U=5y"{cqRE@RE<w0Mn3A?8DMNBVmF"ZxH]&w1_D4u'
+
+stores:
+  first_local:
+    type: Directory
+    path: spec/backups/remove_files_spec1/
+
+  second_local:
+    type: Directory
+    path: spec/backups/remove_files_spec2/
+

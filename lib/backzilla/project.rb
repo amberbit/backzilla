@@ -37,5 +37,14 @@ class Backzilla::Project
       @entities[spec_parts.shift].restore
     end
   end
+
+  def remove(spec_parts=[])
+    info "Project #{name}:"
+    if spec_parts.empty?
+      @entities.each { |name, entity| entity.remove }
+    else
+      @entities[spec_parts.shift].remove
+    end
+  end
 end
 

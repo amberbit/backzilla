@@ -17,6 +17,7 @@ class Backzilla::Store
   end
 
   def put(source_path, project_name, entity_name)
+  pp uri
     cmd =<<-CMD
       PASSPHRASE='#{@@gnugpg_passphrase}' #{env_options} \\
       duplicity #{source_path} #{protocol}://#{uri}/#{project_name}/#{entity_name}
@@ -30,6 +31,10 @@ class Backzilla::Store
       duplicity restore #{protocol}://#{uri}/#{project_name}/#{entity_name} #{source_path}
     CMD
     execute cmd
+  end
+
+  def delete(source_path, project_name, entity_name)
+    FileUtils.rm_rf "#{uri}/#{project_name}/#{entity_name}"
   end
 
   private

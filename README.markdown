@@ -31,6 +31,14 @@ To backup a whole project or single entity:
 
     backzilla -r project_name[:entity_name]
 
+To remove backups of given project from all stores:
+
+    backzilla --remove project_name[:entity_name]
+
+To remove all backups from all stores:
+
+    backzilla --remove all
+
 For other options type:
 
     backzilla -h
@@ -59,8 +67,8 @@ Backup and restore works correctly. Same goes with te rspec tests.
         entity1:
           ...
   in such case amberbit-www entity3 would be accessed like this amberbit:www:entity3
-- -rm BACKUP_PATH - removes this backup from all stores
 - if not present, sample config files should be created
+- restore from some given date...
 
 We are planning to add some more entity and store types to extend backzilla options.
 

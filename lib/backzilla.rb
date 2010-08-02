@@ -58,6 +58,20 @@ module Backzilla
     stores.each { |s| s.get path, project_name, entity_name }
   end
 
+  def self.remove(path, project_name, entity_name)
+    info "Removing #{project_name}[:#{entity_name}]..."
+
+    restores_file = File.expand_path STORES_CONFIG
+    data = YAML.load_file restores_file
+    Store.gnugpg_passphrase = data['gnupg_passphrase']
+    stores = data['stores'].map do |store_name, store_options|
+      klass = Backzilla::Store.const_get(store_options['type'])
+      klass.new(store_name, store_options)
+    end
+
+    stores.each { |s| s.delete path, project_name, entity_name }
+  end
+
   def self.logger
     return @logger if @logger
     @logger = Logger.new(STDOUT)
@@ -76,11 +90,11 @@ module Backzilla
       config.send "#{key}=", value
     end
 
-    if config.backup && config.restore
-      fatal "Use -r or -b separately"
+    if config.backup && config.restore && config.remove
+      fatal "Use --remove, -r or -b separately"
       exit -1
-    elsif !config.backup && !config.restore
-      fatal "-r or -b required"
+    elsif !config.backup && !config.restore && !config.remove
+      fatal "--remove, -r or -b required"
       exit -1
     end
 
@@ -93,7 +107,14 @@ module Backzilla
         project.setup_entities data[project_name]
         projects << project
       end
-      projects.each { |p| config.restore ? p.restore : p.backup }
+
+      if config.backup
+        projects.each { |p| p.backup }
+      elsif config.restore
+        projects.each { |p| p.restore }
+      elsif config.remove
+        projects.each { |p| p.remove }
+      end
     else
       spec_parts = config.spec.split(':')
       project_name = spec_parts.shift
@@ -109,6 +130,8 @@ module Backzilla
         project.backup spec_parts
       elsif config.restore
         project.restore spec_parts
+      elsif config.remove
+        project.remove spec_parts
       end
     end
   end

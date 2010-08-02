@@ -53,6 +53,11 @@ class Backzilla::Entity::MySQL < Backzilla::Entity
     finalize_restore(:path => path)
   end
 
+  def remove
+    Backzilla.remove @path, project.name, self.name
+    @path
+  end
+
   private
 
   def mysql_options

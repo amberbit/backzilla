@@ -43,5 +43,10 @@ class Backzilla::Entity::MongoDB < Backzilla::Entity
     Backzilla.restore path, project.name, self.name
     finalize_restore(:path => path)
   end
+
+  def remove
+    Backzilla.remove @path, project.name, self.name
+    @path
+  end
 end
 

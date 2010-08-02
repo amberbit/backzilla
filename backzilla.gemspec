@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{backzilla}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Wojtek Piekutowski, Pawe\305\202 Sobolewski"]
-  s.date = %q{2010-07-30}
+  s.date = %q{2010-08-02}
   s.default_executable = %q{backzilla}
   s.description = %q{Backzilla can backup multiple entities to multiple destinations.}
   s.email = %q{pawel.sobolewski@amberbit.com}
@@ -66,7 +66,8 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{Multi-purpose backup tool}
   s.test_files = [
-    "spec/spec_helper.rb",
+    "spec/remove_spec.rb",
+     "spec/spec_helper.rb",
      "spec/entities/directory_spec.rb",
      "spec/entities/mysql_spec.rb",
      "spec/entities/mongodb_spec.rb"

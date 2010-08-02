@@ -27,6 +27,11 @@ OptionParser.new do |cmd_options|
     options[:spec] = spec
   end
 
+  cmd_options.on("--remove PROJECT_SPEC", "Removes backups of PROJECT_SPEC from given stores") do |spec|
+    options[:remove] = true
+    options[:spec] = spec
+  end
+
   cmd_options.on("-q", "--quite", "Supress log messages with level lower than ERROR") do |spec|
     options[:quiet] = true
   end
