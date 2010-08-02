@@ -50,6 +50,8 @@ Gem::Specification.new do |s|
      "spec/configs/mongodb/stores.yaml",
      "spec/configs/mysql/projects.yaml",
      "spec/configs/mysql/stores.yaml",
+     "spec/configs/remove_files/projects.yaml",
+     "spec/configs/remove_files/stores.yaml",
      "spec/entities/directory_spec.rb",
      "spec/entities/mongodb_spec.rb",
      "spec/entities/mysql_spec.rb",
@@ -57,6 +59,7 @@ Gem::Specification.new do |s|
      "spec/fixtures/directory/b.txt",
      "spec/fixtures/directory/some/nested/stuff/c.txt",
      "spec/fixtures/mysql/backzilla_test.sql",
+     "spec/remove_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb"
   ]
