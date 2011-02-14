@@ -1,6 +1,6 @@
 require 'spec/spec_helper'
 
-PROJECTS_CONFIG = 'spec/configs/mysql/projects.yaml'
+PROJECTS_CONFIG_MONGO = 'spec/configs/mongodb/projects.yaml'
 
 def create_mongodb_database
   cmd =<<-CMD
@@ -37,7 +37,7 @@ end
 
 describe "Backzilla", "mongodb", "backup preparation" do
   before :each do
-    projects_file = File.expand_path PROJECTS_CONFIG
+    projects_file = File.expand_path PROJECTS_CONFIG_MONGO
     data = YAML.load_file projects_file
       projects = data.inject([]) do |projects, project_data|
         project_name, project_entities_data = *project_data
@@ -63,7 +63,7 @@ end
 
 describe "Backzilla", "mongodb", "finalize restore" do
   before :each do
-    projects_file = File.expand_path PROJECTS_CONFIG
+    projects_file = File.expand_path PROJECTS_CONFIG_MONGO
     data = YAML.load_file projects_file
       projects = data.inject([]) do |projects, project_data|
         project_name, project_entities_data = *project_data

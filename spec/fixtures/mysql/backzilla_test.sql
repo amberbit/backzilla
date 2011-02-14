@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.41, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.1.37, for debian-linux-gnu (i486)
 --
 -- Host: localhost    Database: backzilla_test
 -- ------------------------------------------------------
--- Server version	5.1.41-3ubuntu12.3
+-- Server version	5.1.37-1ubuntu5.5
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-07-19 12:11:40
+-- Dump completed on 2011-02-14 12:27:12

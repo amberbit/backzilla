@@ -1,7 +1,7 @@
 require 'spec/spec_helper'
 
-PROJECTS_CONFIG = 'spec/configs/mysql/projects.yaml'
-STORES_CONFIG = 'spec/configs/mysql/stores.yaml'
+PROJECTS_CONFIG_MYSQL = 'spec/configs/mysql/projects.yaml'
+STORES_CONFIG_MYSQL = 'spec/configs/mysql/stores.yaml'
 
 def create_mysql_database
     cmd =<<-CMD
@@ -62,21 +62,23 @@ def create_mysql_database
 
 describe "Backzilla", "mysql", "backup preparation" do
   before :each do
-    projects_file = File.expand_path PROJECTS_CONFIG
+    projects_file = File.expand_path PROJECTS_CONFIG_MYSQL
     data = YAML.load_file projects_file
-      projects = data.inject([]) do |projects, project_data|
-        project_name, project_entities_data = *project_data
-        data[project_name].each do |entity_name, entity_data|
-          $password = entity_data['password']
-          $user = entity_data['user']
-          @mysql = Backzilla::Entity::MySQL.new('test', entity_data)
-        end
+    projects = data.inject([]) do |projects, project_data|
+      project_name, project_entities_data = *project_data
+      data[project_name].each do |entity_name, entity_data|
+        $password = entity_data['password']
+        $user = entity_data['user']
+        @mysql = Backzilla::Entity::MySQL.new('test', entity_data)
       end
-      create_mysql_database
+    end
+    create_mysql_database
     @mysql.project = Backzilla::Project.new('test')
   end
 
   it "should prepare mysql database to be backed up" do
+    # Before running this test you should create mysql dump manually and move resultant file "backzilla_test.sql" to
+    # #{APP_ROOT}/spec/fixtures/mysql/
     path = Pathname.new(@mysql.prepare_backup)
     path.should == Pathname.new("/tmp/backzilla/test/test/backzilla_test.sql")
     flaga = false
@@ -97,7 +99,7 @@ end
 
 describe "Backzilla", "mysql", "finalize restore" do
   before :each do
-    projects_file = File.expand_path PROJECTS_CONFIG
+    projects_file = File.expand_path PROJECTS_CONFIG_MYSQL
     data = YAML.load_file projects_file
       projects = data.inject([]) do |projects, project_data|
         project_name, project_entities_data = *project_data
