@@ -8,6 +8,20 @@ class Backzilla::Store::FTP < Backzilla::Store
     @password = options['password']
   end
 
+  def put(source_path, project_name, entity_name)
+    target = "#{protocol}://#{uri}/#{project_name}/#{entity_name}"
+    duplicate =  Duplicate.new(@@gnugpg_passphrase, source_path, target)
+    duplicate.add_env_option("FTP_PASSWORD", @password)
+    duplicate.store
+  end
+
+  def get(source_path, project_name, entity_name)
+    source = "#{protocol}://#{uri}/#{project_name}/#{entity_name}"       
+    duplicity = Duplicity.new(@@gnugpg_passphrase, source, source_path)
+    duplicity.add_env_option("FTP_PASSWORD", @password)
+    duplicity.restore
+  end
+
   private
 
   def protocol
