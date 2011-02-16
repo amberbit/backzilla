@@ -1,5 +1,0 @@
-class Backzilla::Connection
-
-
-end
-

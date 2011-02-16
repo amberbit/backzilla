@@ -3,5 +3,5 @@ test:
     type: MySQL
     database: backzilla_test
     user: root
-    password: sword4fish
+    password:
 
