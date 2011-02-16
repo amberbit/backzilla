@@ -10,31 +10,14 @@ class Backzilla::Entity::Directory < Backzilla::Entity
     @path
   end
 
-  def backup
-    prepare_backup
-    Backzilla.store @path, project.name, self.name
-    @path
-  end
-
   def finalize_restore
     restore_msg
     validate_path
-    @path
-  end
-
-  def restore
-    finalize_restore
     FileUtils.rm_rf @path
     FileUtils.mkdir @path
-    Backzilla.restore @path, project.name, self.name
     @path
   end
-
-  def remove
-    Backzilla.remove @path, project.name, self.name
-    @path
-  end
-
+  
   private
 
   def validate_path

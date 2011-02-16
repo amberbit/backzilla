@@ -27,7 +27,9 @@ class Duplicity
   end
 
   def add_env_option(key,value)
-    @env_options += "#{key.upcase}=#{value} "  
+    unless key.blank? || value.blank?
+      @env_options += "#{key.upcase}=#{value} "
+    end
   end
 
   def add_option(option)

@@ -1,28 +1,21 @@
 require 'net/ssh'
 
 class Backzilla::Store::SSH < Backzilla::Store
-  def initialize(name, options)
-    super(name)
+  def initialize(name, project_name, entity_name, options)
+    super(name, project_name, entity_name)
     @path = options['path']
     @host = options['host']
     @user = options['user']
+
+    Net::SSH.start(@host, @user) do |ssh|
+      ssh.exec "mkdir -p " + @path.to_s + "/#{@project_name}/#{@entity_name}"
+    end 
   end
 
-  def put(source_path, project_name, entity_name)
-    Net::SSH.start(@host, @user ) do |ssh|
-      ssh.exec "mkdir -p " + @path.to_s + "/#{project_name}/#{entity_name}"
-    end
-    
-    target = "#{protocol}://#{uri}/#{project_name}/#{entity_name}"
-    duplicity = Duplicity.new(@@gnugpg_passphrase, source_path, target)
-    duplicity.store
+  def store_uri
+    "#{protocol}://#{uri}/#{@project_name}/#{@entity_name}" 
   end
-
-  def get(source_path, project_name, entity_name)
-    source = "#{protocol}://#{uri}/#{project_name}/#{entity_name}"       
-    duplicity = Duplicity.new(@@gnugpg_passphrase, source, source_path)
-    duplicity.restore
-  end
+ 
 
   private
   

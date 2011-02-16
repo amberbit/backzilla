@@ -2,6 +2,7 @@ class Backzilla::Project
   include Backzilla::LoggerHelper
 
   attr_reader :name
+  attr_reader :entities
 
   def initialize(name)
     @name = name
@@ -18,33 +19,6 @@ class Backzilla::Project
       klass = Backzilla::Entity.const_get(entity_data['type'])
       self << klass.new(entity_name, entity_data)
     end
-  end
-
-  def backup(spec_parts=[])
-    info "Project #{name}:"
-    if spec_parts.empty?
-      @entities.each { |name, entity| entity.backup }
-    else
-      @entities[spec_parts.shift].backup
-    end
-  end
-
-  def restore(spec_parts=[])
-    info "Project #{name}:"
-    if spec_parts.empty?
-      @entities.each { |name, entity| entity.restore }
-    else
-      @entities[spec_parts.shift].restore
-    end
-  end
-
-  def remove(spec_parts=[])
-    info "Project #{name}:"
-    if spec_parts.empty?
-      @entities.each { |name, entity| entity.remove }
-    else
-      @entities[spec_parts.shift].remove
-    end
-  end
+  end 
 end
 

@@ -22,56 +22,15 @@ module Backzilla
   autoload :Executor, 'backzilla/executor'
   autoload :Version, 'backzilla/version'
   autoload :Configuration, 'backzilla/configuration'
+  autoload :Action, 'backzilla/action'
 
   include Backzilla::Version
   include Backzilla::Executor
   extend Backzilla::LoggerHelper
 
   STORES_CONFIG = ENV["BACKZILLA_STORES_CONFIG"] || "~/.backzilla/stores.yaml"
-  PROJECTS_CONFIG = ENV["BACKZILLA_PROJECTS_CONFIG"] || "~/.backzilla/projects.yaml"
-
-  def self.store(path, project_name, entity_name)
-    info "Storing #{path}..."
-
-    stores_file = File.expand_path STORES_CONFIG
-    data = YAML.load_file stores_file
-    Store.gnugpg_passphrase = data['gnupg_passphrase']
-    stores = data['stores'].map do |store_name, store_options|
-      klass = Backzilla::Store.const_get(store_options['type'])
-      klass.new(store_name, store_options)
-    end
-
-    stores.each { |s| s.put path, project_name, entity_name }
-  end
-
-  def self.restore(path, project_name, entity_name)
-    info "Restoring #{path}..."
-
-    restores_file = File.expand_path STORES_CONFIG
-    data = YAML.load_file restores_file
-    Store.gnugpg_passphrase = data['gnupg_passphrase']
-    stores = data['stores'].map do |store_name, store_options|
-      klass = Backzilla::Store.const_get(store_options['type'])
-      klass.new(store_name, store_options)
-    end
-
-    stores.each { |s| s.get path, project_name, entity_name }
-  end
-
-  def self.remove(path, project_name, entity_name)
-    info "Removing #{project_name}[:#{entity_name}]..."
-
-    restores_file = File.expand_path STORES_CONFIG
-    data = YAML.load_file restores_file
-    Store.gnugpg_passphrase = data['gnupg_passphrase']
-    stores = data['stores'].map do |store_name, store_options|
-      klass = Backzilla::Store.const_get(store_options['type'])
-      klass.new(store_name, store_options)
-    end
-
-    stores.each { |s| s.delete path, project_name, entity_name }
-  end
-
+  PROJECTS_CONFIG = ENV["BACKZILLA_PROJECTS_CONFIG"] || "~/.backzilla/projects.yaml" 
+  
   def self.logger
     return @logger if @logger
     @logger = Logger.new(STDOUT)
@@ -107,13 +66,13 @@ module Backzilla
         project.setup_entities data[project_name]
         projects << project
       end
-
+      
       if config.backup
-        projects.each { |p| p.backup }
+        projects.each { |p| Action::Backup.new(p).run }
       elsif config.restore
-        projects.each { |p| p.restore }
+        projects.each { |p| Action::Restore.new(p).run }
       elsif config.remove
-        projects.each { |p| p.remove }
+        projects.each { |p| Action::Remove.new(p).run }
       end
     else
       spec_parts = config.spec.split(':')
@@ -127,11 +86,11 @@ module Backzilla
       project.setup_entities data[project_name]
 
       if config.backup
-        project.backup spec_parts
+        Action::Backup.new(project).run(spec_parts.shift)
       elsif config.restore
-        project.restore spec_parts
+        Action::Restore.new(project).run(spec_parts.shift)
       elsif config.remove
-        project.remove spec_parts
+        Action::Remove.new(project).run(spec_parts.shift)
       end
     end
   end

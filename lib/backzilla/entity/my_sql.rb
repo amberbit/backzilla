@@ -21,17 +21,13 @@ class Backzilla::Entity::MySQL < Backzilla::Entity
 
     cmd = "mysqldump #{mysql_options} #{@database} > #{filename}"
     execute cmd
+    backup_msg
     filename
   end
 
-  def backup
-    prepare_backup
-    backup_msg
-    path = Pathname.new(BASE_PATH) + project.name + name
-    Backzilla.store path, project.name, self.name
 
-    FileUtils.rm_rf path
-  end
+   # Posprzatac po przygotowaniu pliku do backupu  
+   # FileUtils.rm_rf path
 
   def finalize_restore(options={})
     path = options[:path] + "*.sql"
@@ -57,7 +53,7 @@ class Backzilla::Entity::MySQL < Backzilla::Entity
     Backzilla.remove @path, project.name, self.name
     @path
   end
-
+  
   private
 
   def mysql_options

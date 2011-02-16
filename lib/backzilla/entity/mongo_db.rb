@@ -14,18 +14,12 @@ class Backzilla::Entity::MongoDB < Backzilla::Entity
     path = Pathname.new(BASE_PATH) + project.name + name
     FileUtils.mkdir_p path
     cmd = "mongodump -d #{@database} -o #{path}"
-    execute cmd
+    execute cmd 
+    backup_msg
     path
   end
 
-  def backup
-    prepare_backup
-    backup_msg
-    path = Pathname.new(BASE_PATH) + project.name + name
-    Backzilla.store path, project.name, self.name
-
-    FileUtils.rm_rf path
-  end
+  # FileUtils.rm_rf path
 
   def finalize_restore(options={})
     path = options[:path]

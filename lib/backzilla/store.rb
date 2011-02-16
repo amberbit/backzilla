@@ -9,16 +9,14 @@ class Backzilla::Store
 
   attr_reader :name
 
-  def initialize(name)
+  def initialize(name, project_name, entity_name)
     @name = name
+    @project_name = project_name
+    @entity_name = entity_name
   end
 
-  def self.gnugpg_passphrase=(value)
-    @@gnugpg_passphrase = value
-  end
- 
-  def delete(source_path, project_name, entity_name)
-    FileUtils.rm_rf "#{uri}/#{project_name}/#{entity_name}"
+  def environment_options
+    ["",""]
   end
 end
 

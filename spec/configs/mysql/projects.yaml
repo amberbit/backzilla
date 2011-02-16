@@ -1,7 +1,7 @@
 test:
-  databass:
+  database:
     type: MySQL
     database: backzilla_test
     user: root
-    password: root
+    password: sword4fish
 
