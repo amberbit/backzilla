@@ -9,8 +9,8 @@ class Backzilla::Entity::Directory < Backzilla::Entity
     validate_path
     @path
   end
-
-  def finalize_restore
+  
+  def prepare_restore
     restore_msg
     validate_path
     FileUtils.rm_rf @path

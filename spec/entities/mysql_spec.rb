@@ -116,7 +116,7 @@ describe "Backzilla", "mysql", "finalize restore" do
 
   it "should restore mysql database from given file" do
     modify_mysql_database
-    @mysql.finalize_restore(:path => '/tmp/backzilla/test/test/')
+    @mysql.finalize_restore
     cmd =<<-CMD
       echo "select * from backzilla_test.users; " |\
       mysql -u #{$user} -p#{$password}

@@ -80,7 +80,7 @@ describe "Backzilla", "mongodb", "finalize restore" do
 
   it "should restore database from given file" do
     modify_mongodb_database
-    @mongodb.finalize_restore(:path => '/tmp/backzilla/test/test/')
+    @mongodb.finalize_restore
     cmd =<<-CMD
       echo "use backzilla_test
            db.users.find()" |\

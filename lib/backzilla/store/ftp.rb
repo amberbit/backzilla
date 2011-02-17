@@ -1,7 +1,7 @@
 # NcFTP required
 class Backzilla::Store::FTP < Backzilla::Store
-  def initialize(name, project_name, entity_name, options)
-    super(name, project_name, entity_name)
+  def initialize(name, options)
+    super(name)
     @path = options['path']
     @host = options['host']
     @user = options['user']
@@ -34,7 +34,7 @@ class Backzilla::Store::FTP < Backzilla::Store
     end
 
     uri = ''
-    uri << "#{@user}@" unless @user.blank?
+    uri << "#{@user}:#{@password}@" unless @user.blank?
     uri << @host
     uri << @path
   end

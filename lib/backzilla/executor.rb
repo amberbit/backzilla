@@ -8,9 +8,9 @@ module Backzilla::Executor
     err = stderr.read
     if status.exitstatus != 0
       fatal err unless err.blank?
-      exit -1
+      exit 1
     else
-      debug err unless err.blank?
+      error err unless err.blank?
     end
   end
 end

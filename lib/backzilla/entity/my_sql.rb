@@ -18,42 +18,34 @@ class Backzilla::Entity::MySQL < Backzilla::Entity
     path = Pathname.new(BASE_PATH) + project.name + name
     FileUtils.mkdir_p path
     filename = path + "#{@database}.sql"
-
     cmd = "mysqldump #{mysql_options} #{@database} > #{filename}"
     execute cmd
     backup_msg
     filename
   end
+  
+  def prepare_restore
+    restore_msg
+    path = Pathname.new(BASE_PATH) + project.name + name 
+    FileUtils.mkdir_p path unless File.exist?(path)
+    path + "#{@database}.sql"
+  end
 
-
-   # Posprzatac po przygotowaniu pliku do backupu  
-   # FileUtils.rm_rf path
-
-  def finalize_restore(options={})
-    path = options[:path] + "*.sql"
+  def finalize_restore 
+    path = Pathname.new(BASE_PATH) + project.name + name
+    path = path + "#{@database}.sql"
     Dir.glob(path).each do |dir|
       cmd = "mysql #{mysql_options} #{@database} <"+dir
       execute cmd
     end
-    FileUtils.rm_rf options[:path]
+    FileUtils.rm_rf path
+  end 
+
+  def clean
+    path = Pathname.new(BASE_PATH)
+    FileUtils.rm_rf path
   end
 
-  def restore
-    filename = ""
-    restore_msg
-    path = Pathname.new(BASE_PATH) + project.name + name
-    FileUtils.mkdir_p path
-    filename = path + "#{@database}.sql"
-
-    Backzilla.restore path, project.name, self.name
-    finalize_restore(:path => path)
-  end
-
-  def remove
-    Backzilla.remove @path, project.name, self.name
-    @path
-  end
-  
   private
 
   def mysql_options

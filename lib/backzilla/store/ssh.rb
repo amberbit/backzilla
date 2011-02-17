@@ -1,8 +1,8 @@
 require 'net/ssh'
 
 class Backzilla::Store::SSH < Backzilla::Store
-  def initialize(name, project_name, entity_name, options)
-    super(name, project_name, entity_name)
+  def initialize(name, options)
+    super(name)
     @path = options['path']
     @host = options['host']
     @user = options['user']

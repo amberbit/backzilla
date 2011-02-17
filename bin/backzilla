@@ -20,16 +20,19 @@ OptionParser.new do |cmd_options|
   cmd_options.on("-b", "--backup PROJECT_SPEC", "Backups PROJECT_SPEC") do |spec|
     options[:backup] = true
     options[:spec] = spec
+    options[:action] = "Backup"
   end
 
   cmd_options.on("-r", "--restore PROJECT_SPEC", "Restores PROJECT_SPEC") do |spec|
     options[:restore] = true
     options[:spec] = spec
+    options[:action] = "Restore"
   end
 
   cmd_options.on("--remove PROJECT_SPEC", "Removes backups of PROJECT_SPEC from given stores") do |spec|
     options[:remove] = true
     options[:spec] = spec
+    options[:action] = "Remove"
   end
 
   cmd_options.on("-q", "--quite", "Supress log messages with level lower than ERROR") do |spec|

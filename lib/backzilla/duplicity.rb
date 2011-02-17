@@ -1,18 +1,21 @@
-class Duplicity
+class Backzilla::Duplicity
   include Backzilla::Executor
   include Backzilla::LoggerHelper
  
-  def initialize(passphrase, source, target)
-    @passphrase = passphrase
+  def initialize(source, target)
     @source = source
     @target = target
     @options = ""
     @env_options = ""
   end
+  
+  def self.gnupg_passphrase=(value)
+    @@gnupg_passphrase = value
+  end
 
   def store
     cmd =<<-CMD
-      PASSPHRASE='#{@passphrase}' #{@env_options} \\
+      PASSPHRASE='#{@@gnupg_passphrase}' #{@env_options} \\
       duplicity #{@options} #{@source} #{@target}
     CMD
     execute cmd
@@ -20,7 +23,7 @@ class Duplicity
 
   def restore
     cmd =<<-CMD
-      PASSPHRASE='#{@passphrase}' #{@env_options} \\
+      PASSPHRASE='#{@@gnupg_passphrase}' #{@env_options} \\
       duplicity restore #{@options} #{@source} #{@target}
     CMD
     execute cmd

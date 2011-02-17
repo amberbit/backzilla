@@ -19,28 +19,23 @@ class Backzilla::Entity::MongoDB < Backzilla::Entity
     path
   end
 
-  # FileUtils.rm_rf path
+  def prepare_restore
+    restore_msg
+    path = Pathname.new(BASE_PATH) + project.name + name 
+    FileUtils.mkdir_p path unless File.exist?(path)
+    path
+  end
 
-  def finalize_restore(options={})
-    path = options[:path]
+  def finalize_restore
+    path = Pathname.new(BASE_PATH) + project.name + name 
     cmd = "mongorestore --drop -d #{@database} #{path}/#{@database}"
     execute cmd
-
     FileUtils.rm_rf path
   end
-
-  def restore
-    restore_msg
-    path = Pathname.new(BASE_PATH) + project.name + name
-    FileUtils.mkdir_p path
-
-    Backzilla.restore path, project.name, self.name
-    finalize_restore(:path => path)
-  end
-
-  def remove
-    Backzilla.remove @path, project.name, self.name
-    @path
+  
+  def clean
+    path = Pathname.new(BASE_PATH)
+    FileUtils.rm_rf path
   end
 end
 

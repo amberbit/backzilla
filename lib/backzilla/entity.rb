@@ -13,7 +13,7 @@ class Backzilla::Entity
   def initialize(name)
     @name = name
   end
-
+ 
   private
 
   def self.demodulize

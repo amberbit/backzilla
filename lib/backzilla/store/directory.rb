@@ -1,11 +1,11 @@
 class Backzilla::Store::Directory < Backzilla::Store
-  def initialize(name, project_name, entity_name, options)
-    super(name, project_name, entity_name)
+  def initialize(name, options)
+    super(name)
     @path = options['path']
   end  
     
-  def store_uri
-    "#{protocol}://#{uri}/#{@project_name}/#{@entity_name}"
+  def store_uri(project_name, entity_name)
+    "#{protocol}://#{uri}/#{project_name}/#{entity_name}"
   end
 
   private
