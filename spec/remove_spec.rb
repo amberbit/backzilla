@@ -1,4 +1,5 @@
-require 'spec/spec_helper'
+# -*- encoding: utf-8 -*-
+require './spec/spec_helper'
 
 PROJECTS_CONFIG = 'spec/configs/remove_files/projects.yaml'
 STORES_CONFIG = 'spec/configs/remove_files/stores.yaml'

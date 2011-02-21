@@ -1,4 +1,3 @@
-module Backzilla::Version
-  VERSION = '0.0.1'
+module Backzilla
+  VERSION = "0.0.3"
 end
-

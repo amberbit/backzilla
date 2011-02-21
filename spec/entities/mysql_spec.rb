@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require './spec/spec_helper'
 
 PROJECTS_CONFIG_MYSQL = 'spec/configs/mysql/projects.yaml'
 STORES_CONFIG_MYSQL = 'spec/configs/mysql/stores.yaml'

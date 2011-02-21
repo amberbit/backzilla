@@ -1,6 +1,6 @@
 require 'fileutils'
 $LOAD_PATH.unshift "lib"
-require "backzilla"
+require 'backzilla'
 
 Spec::Runner.configure do |config|
   # == Mock Framework

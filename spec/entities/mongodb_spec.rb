@@ -1,4 +1,5 @@
-require 'spec/spec_helper'
+# -*- encoding: utf-8 -*-
+require './spec/spec_helper'
 
 PROJECTS_CONFIG_MONGO = 'spec/configs/mongodb/projects.yaml'
 

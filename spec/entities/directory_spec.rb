@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require './spec/spec_helper'
 
 def remove_files
   FileUtils.rm_rf "/tmp/backzilla/"

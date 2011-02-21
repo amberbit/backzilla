@@ -24,8 +24,8 @@ module Backzilla
   autoload :Configuration, 'backzilla/configuration'
   autoload :Action, 'backzilla/action'
   autoload :Duplicity, 'backzilla/duplicity'
+  autoload :Backzilla, 'backzilla/version'
 
-  include Backzilla::Version
   include Backzilla::Executor
   extend Backzilla::LoggerHelper
 
