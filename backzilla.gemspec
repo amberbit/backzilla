@@ -24,6 +24,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-mocks"
   s.add_development_dependency "rspec-expectations"
   s.add_development_dependency "rspec", "1.3.1"
-  s.add_dependency "net-ssh"
+  s.add_dependency "net-ssh", "~>2.1.0" 
   s.add_dependency "open4", "~>1.0.0"
 end
