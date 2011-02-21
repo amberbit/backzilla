@@ -5,7 +5,7 @@ class Backzilla::Duplicity
   def initialize(source, target)
     @source = source
     @target = target
-    @options = ""
+    @options = "--force "
     @env_options = ""
   end
   

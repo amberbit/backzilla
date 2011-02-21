@@ -7,12 +7,12 @@ class Backzilla::Store::SSH < Backzilla::Store
     @host = options['host']
     @user = options['user']
 
-    Net::SSH.start(@host, @user) do |ssh|
-      ssh.exec "mkdir -p " + @path.to_s + "/#{@project_name}/#{@entity_name}"
-    end 
   end
 
   def store_uri(project_name, entity_name)
+    Net::SSH.start(@host, @user) do |ssh|
+      ssh.exec "mkdir -p " + @path.to_s + "/#{project_name}/#{entity_name}"
+    end 
     "#{protocol}://#{uri}/#{project_name}/#{entity_name}" 
   end
  

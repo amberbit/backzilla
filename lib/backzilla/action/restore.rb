@@ -13,6 +13,7 @@ class Backzilla::Action::Restore
     path = entity.prepare_restore
     info "Restoring #{path}..."
     @stores.each do |store|
+      info "Restoring from #{store.name} ..."
       source = store.store_uri(entity.project.name, entity.name)
       duplicity = Backzilla::Duplicity.new(source, path)
       duplicity.restore
