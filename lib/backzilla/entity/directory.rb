@@ -17,6 +17,9 @@ class Backzilla::Entity::Directory < Backzilla::Entity
     FileUtils.mkdir @path
     @path
   end
+
+  def finalize_restore; end
+  def clean; end
   
   private
 

@@ -1,11 +1,8 @@
-class Backzilla::Action::Remove < Backzilla::Action
-   
-  def initialize(entities, stores)
-    super(entities, stores)
-  end
-  
+class Backzilla::Action::Remove
+  include Backzilla::Action
+     
   def run
-    @entities.each do |name, entity|
+    @entities.each do |entity|
       remove_entity(entity)
     end
   end
@@ -13,11 +10,12 @@ class Backzilla::Action::Remove < Backzilla::Action
   private 
     
   def remove_entity(entity)
-    # info "Removing #{@project.name}[:#{entity.name}]..."
+    info "Removing #{entity.project.name}[:#{entity.name}]..."
 
     @stores.each do |store|
-      target = store.store_uri(entity.project.name, entity.name)
-      FileUtils.rm_rf target[7..-1] # POPRAWIC TO!!!
+      target = store.remove_uri(entity.project.name, entity.name)
+      
+      FileUtils.rm_rf target
     end
   end
 end

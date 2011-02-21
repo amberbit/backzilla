@@ -1,11 +1,8 @@
-class Backzilla::Action::Restore < Backzilla::Action
-
-  def initialize(entities, stores)
-    super(entities, stores)
-  end
+class Backzilla::Action::Restore
+  include Backzilla::Action
   
   def run
-    @entities.each do |name, entity|
+    @entities.each do |entity|
       restore_entity(entity)
     end
   end
@@ -20,6 +17,6 @@ class Backzilla::Action::Restore < Backzilla::Action
       duplicity = Backzilla::Duplicity.new(source, path)
       duplicity.restore
     end
-    entity.finalize_restore if entity.respond_to?(:finalize_restore)
+    entity.finalize_restore
   end
 end

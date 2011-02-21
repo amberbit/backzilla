@@ -6,12 +6,12 @@ class Backzilla::Project
 
   def initialize(name)
     @name = name
-    @entities = {}
+    @entities = []
   end
 
   def <<(entity)
     entity.project = self
-    @entities[entity.name] = entity
+    @entities << entity
   end
 
   def setup_entities(entities_data)

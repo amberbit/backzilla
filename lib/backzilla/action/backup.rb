@@ -1,11 +1,8 @@
-class Backzilla::Action::Backup < Backzilla::Action
-  
-  def initialize(entities, stores)
-    super(entities, stores)
-  end
-  
+class Backzilla::Action::Backup
+  include Backzilla::Action
+    
   def run
-    @entities.each do |name, entity|
+    @entities.each do |entity|
       store_entity(entity)
     end
   end
@@ -22,6 +19,6 @@ class Backzilla::Action::Backup < Backzilla::Action
       duplicity =  Backzilla::Duplicity.new(path, target)
       duplicity.store
     end
-    entity.clean if entity.respond_to?(:clean)
+    entity.clean
   end
 end

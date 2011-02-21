@@ -1,4 +1,4 @@
-class Backzilla::Action
+module Backzilla::Action
   autoload :Backup, 'backzilla/action/backup' 
   autoload :Restore, 'backzilla/action/restore'
   autoload :Remove, 'backzilla/action/remove'

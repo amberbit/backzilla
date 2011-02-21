@@ -8,15 +8,14 @@ class Backzilla::Store::FTP < Backzilla::Store
     @password = options['password']
   end
  
-  def store_uri
-    "#{protocol}://#{uri}/#{@project_name}/#{@entity_name}" 
+  def store_uri(project_name, entity_name)
+    "#{protocol}://#{uri}/#{project_name}/#{entity_name}" 
   end
   
-  def environment_options
-    ["FTP_PASSWORD", @password]
+  def remove_uri(project_name, entity_name)
+    ""
   end
-
-
+  
   private
 
   def protocol

@@ -25,7 +25,6 @@ module Backzilla
   autoload :Action, 'backzilla/action'
   autoload :Duplicity, 'backzilla/duplicity'
 
-
   include Backzilla::Version
   include Backzilla::Executor
   extend Backzilla::LoggerHelper
@@ -85,10 +84,10 @@ module Backzilla
       spec_parts = config.spec.split(':')
       project_name = spec_parts.shift
       
-      entity = {}
+      entity = nil
       unless spec_parts.empty? 
         name = spec_parts.shift
-        entity[name] = data[project_name][name]
+        entity = data[project_name][name]
       end
 
       unless data[project_name]
@@ -96,7 +95,7 @@ module Backzilla
         exit 1
       end
       project = Project.new(project_name)
-      project.setup_entities(entity.empty? ? data[project_name] : entity)
+      project.setup_entities(entity.nil? ? data[project_name] : entity)
       
       klass = Backzilla::Action.const_get(config.action)
       klass.new(project.entities, stores).run

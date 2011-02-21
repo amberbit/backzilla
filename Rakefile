@@ -20,7 +20,7 @@ begin
     gemspec.description = "Backzilla can backup multiple entities to multiple destinations."
     gemspec.email = "pawel.sobolewski@amberbit.com"
     gemspec.homepage = "http://amberbit.com/"
-    gemspec.authors = ["Wojtek Piekutowski, Pawel Sobolewski"]
+    gemspec.authors = ["Wojtek Piekutowski, Paweł Sobolewski"]
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: gem install jeweler"
