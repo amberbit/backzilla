@@ -20,11 +20,9 @@ module Backzilla
   autoload :Entity, 'backzilla/entity'
   autoload :Store, 'backzilla/store'
   autoload :Executor, 'backzilla/executor'
-  autoload :Version, 'backzilla/version'
   autoload :Configuration, 'backzilla/configuration'
   autoload :Action, 'backzilla/action'
   autoload :Duplicity, 'backzilla/duplicity'
-  autoload :Backzilla, 'backzilla/version'
 
   include Backzilla::Executor
   extend Backzilla::LoggerHelper
