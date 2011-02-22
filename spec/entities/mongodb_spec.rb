@@ -3,39 +3,6 @@ require './spec/spec_helper'
 
 PROJECTS_CONFIG_MONGO = 'spec/configs/mongodb/projects.yaml'
 
-def create_mongodb_database
-  cmd =<<-CMD
-    echo "use backzilla_test
-          db.users.insert({name: 'Paweł', email: 'cokolwiek@amberbit.com', password: 'qweqwe'})
-          db.users.insert({name: 'Łukasz1', email: 'cokolwiek@amberbit.com', password: 'qweqwe'})
-          db.users.insert({name: 'Łukasz2', email: 'cokolwiek@amberbit.com', password: 'qweqwe'})
-          db.users.insert({name: 'Wojtek', email: 'cokolwiek@amberbit.com', password: 'qweqwe'})
-          db.users.insert({name: 'Marcin', email: 'cokolwiek@amberbit.com', password: 'qweqwe'})
-          db.users.insert({name: 'Hubert', email: 'cokolwiek@amberbit.com', password: 'qweqwe'})" |\
-    mongo
-  CMD
-  `#{cmd}`
-end
-
-def modify_mongodb_database
-   cmd =<<-CMD
-     echo "use backzilla_test
-           db.users.update({name: \\"Paweł\\"},{\\$set:{name: \\"Wiesław\\"}})
-           db.users.find()" |\
-     mongo
-   CMD
-   `#{cmd}`
-end
-
-def drop_mongodb_database
-  cmd =<<-CMD
-    echo "use backzilla_test
-          db.dropDatabase()" |\
-    mongo
-  CMD
-  `#{cmd}`
-end
-
 describe "Backzilla", "mongodb", "backup preparation" do
   before :each do
     projects_file = File.expand_path PROJECTS_CONFIG_MONGO
@@ -50,7 +17,7 @@ describe "Backzilla", "mongodb", "backup preparation" do
     @mongodb.project = Backzilla::Project.new('test')
   end
 
-  it "schoule prepare database to be backed up" do
+  it "should prepare database to be backed up" do
     path = Pathname.new(@mongodb.prepare_backup)
     path.should == Pathname.new("/tmp/backzilla/test/test")
 

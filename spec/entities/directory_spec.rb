@@ -41,6 +41,5 @@ describe "Backzilla", "Directory" do
     $md5sum_result = `#{cmd}`
     $md5sum_result.should == ""
   end
-
 end
 

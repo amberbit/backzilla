@@ -3,62 +3,6 @@ require './spec/spec_helper'
 PROJECTS_CONFIG_MYSQL = 'spec/configs/mysql/projects.yaml'
 STORES_CONFIG_MYSQL = 'spec/configs/mysql/stores.yaml'
 
-def create_mysql_database
-    cmd =<<-CMD
-      echo "create database backzilla_test;
-            create table backzilla_test.users
-              (user_id INT NOT NULL AUTO_INCREMENT,
-               email VARCHAR(80) NOT NULL,
-               name VARCHAR(50) NOT NULL,
-               password CHAR(41) NOT NULL,
-               PRIMARY KEY (user_id),
-               UNIQUE INDEX (email));
-             insert into backzilla_test.users
-              (user_id, email, name, password)
-              values
-                ('1', 'Lukas@amberbit.com', 'Lukas Kowalski', 'qweasd');
-             insert into backzilla_test.users
-              (user_id, email, name, password)
-              values
-                ('2', 'Martin@amberbit.com', 'Martin Kowalski', 'qwezxc');
-             insert into backzilla_test.users
-              (user_id, email, name, password)
-              values
-                ('3', 'Wojtek@amberbit.com', 'Wojtek Kowalski', 'qwerty');
-             insert into backzilla_test.users
-              (user_id, email, name, password)
-              values
-                ('4', 'Paul@amberbit.com', 'Paul Kowalski', 'qweasd');
-             insert into backzilla_test.users
-              (user_id, email, name, password)
-              values
-                ('5', 'Hubert@amberbit.com', 'Hubert Kowalski', 'qweqwe');
-             insert into backzilla_test.users
-              (user_id, email, name, password)
-              values
-                ('6', 'Lukas2@amberbit.com', 'Lukas2 Kowalski', 'qweqwe');"  | \
-      mysql -u #{$user} -p#{$password}
-    CMD
-    system(cmd)
-  end
-
-  def modify_mysql_database
-    cmd =<<-CMD
-      echo "update backzilla_test.users set
-              name = 'Kacper the friendly ghoust'
-              where user_id = 1" | \
-      mysql -u #{$user} -p#{$password}
-    CMD
-    system(cmd)
-  end
-
-  def drop_mysql_database
-    cmd =<<-CMD
-      echo "drop database backzilla_test; " |\
-      mysql -u #{$user} -p#{$password}
-    CMD
-    `#{cmd}`
-  end
 
 describe "Backzilla", "mysql", "backup preparation" do
   before :each do
@@ -122,7 +66,7 @@ describe "Backzilla", "mysql", "finalize restore" do
       mysql -u #{$user} -p#{$password}
     CMD
    tmp = `#{cmd}`
-   tmp.should_not include "Kacper the friendly ghoust"
+   tmp.should_not include "Kacper the friendly ghost"
   end
 end
 
