@@ -1,6 +1,6 @@
 class Backzilla::Entity::Directory < Backzilla::Entity
-  def initialize(name, options)
-    super(name)
+  def initialize(name, options, base_path = '/tmp/backzilla')
+    super(name, base_path)
     @path = options['path']
   end
 

@@ -6,13 +6,12 @@ class Backzilla::Entity
 
   include Backzilla::LoggerHelper
 
-  BASE_PATH = '/tmp/backzilla'
-
   attr_reader :name
   attr_accessor :project
 
-  def initialize(name)
+  def initialize(name, base_path)
     @name = name
+    @base_path = base_path
   end
  
   private

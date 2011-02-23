@@ -2,29 +2,25 @@ class Backzilla::Entity::CapistranoRails < Backzilla::Entity
   include Backzilla::Executor
   
   def initialize(name, options)
-    super(name)
-    @database_type = options['database_type']
+    super(name, '/tmp/backzilla') 
     @path = Pathname.new(File.expand_path(options['path']))
     @shared_directory = @path + "shared"
-    if @database_type == "MySQL"
-      parse_yaml_file(@path + "current/config/database.yml") 
+
+    database_type = options['database_type']
+    if database_type == "MySQL"
+      data = parse_yaml_file(@path + "current/config/database.yml")  
     else
-      parse_yaml_file(@path + "current/config/mongoid.yml")
+      data = parse_yaml_file(@path + "current/config/mongoid.yml")
     end
+    klass = Backzilla::Entity.const_get(database_type)
+    @entity = klass.new("shared", data, '/')
+    @entity.project = Backzilla::Project.new(@path) 
   end
 
   def prepare_backup
     backup_msg
     validate_path
-     
-    if @database_type == "MySQL"
-      filename = @shared_directory + "#{@database}.sql"
-      cmd = "mysqldump --user=#{@user} --password=#{@password} #{@database} > #{filename}"
-      execute cmd
-    else
-      cmd = "mongodump -d #{@database} -o #{@shared_directory}"
-      execute cmd 
-    end  
+    @entity.prepare_backup
     @shared_directory
   end
 
@@ -37,29 +33,11 @@ class Backzilla::Entity::CapistranoRails < Backzilla::Entity
   end
 
   def finalize_restore
-    if @database_type == "MySQL"
-      sql_file_path = @shared_directory + "#{@database}.sql"
-      Dir.glob(sql_file_path).each do |dir|
-        cmd = "mysql --user=#{@user} --password=#{@password} #{@database} <"+dir
-        execute cmd
-      end
-      FileUtils.rm_rf sql_file_path
-    else
-      mongo_files_path = @shared_directory + @database
-      cmd = "mongorestore --drop -d #{@database} #{mongo_files_path}"
-      execute cmd
-      FileUtils.rm_rf mongo_files_path
-    end
+    @entity.finalize_restore
   end
 
   def clean
-    if @database_type == "MySQL"
-      filepath = @shared_directory + "#{@database}.sql"
-      FileUtils.rm filepath
-    else
-      directorypath = @shared_directory + @database
-      FileUtils.rm_rf directorypath
-    end
+    @entity.clean
   end
 
   private
@@ -77,8 +55,10 @@ class Backzilla::Entity::CapistranoRails < Backzilla::Entity
 
   def parse_yaml_file(path)
     data = YAML.load_file path
-    @user = data['production']['username']
-    @password = data['production']['password']
-    @database = data['production']['database']
+    {
+      'user' => data['production']['username'],
+      'password' => data['production']['password'],
+      'database' => data['production']['database']
+    }
   end
 end

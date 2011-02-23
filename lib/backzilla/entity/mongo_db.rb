@@ -1,8 +1,8 @@
 class Backzilla::Entity::MongoDB < Backzilla::Entity
   include Backzilla::Executor
 
-  def initialize(name, options)
-    super(name)
+  def initialize(name, options, base_path = '/tmp/backzilla')
+    super(name, base_path)
     @database = options['database']
   end
 
@@ -11,7 +11,7 @@ class Backzilla::Entity::MongoDB < Backzilla::Entity
       fatal "Database name is blank"
       exit -1
     end
-    path = Pathname.new(BASE_PATH) + project.name + name
+    path = Pathname.new(@base_path) + project.name + name
     FileUtils.mkdir_p path
     cmd = "mongodump -d #{@database} -o #{path}"
     execute cmd 
@@ -21,20 +21,21 @@ class Backzilla::Entity::MongoDB < Backzilla::Entity
 
   def prepare_restore
     restore_msg
-    path = Pathname.new(BASE_PATH) + project.name + name 
+    path = Pathname.new(@base_path) + project.name + name 
     FileUtils.mkdir_p path unless File.exist?(path)
     path
   end
 
   def finalize_restore
-    path = Pathname.new(BASE_PATH) + project.name + name 
-    cmd = "mongorestore --drop -d #{@database} #{path}/#{@database}"
+    path = Pathname.new(@base_path) + project.name + name
+    path = path + @database
+    cmd = "mongorestore --drop -d #{@database} #{path}"
     execute cmd
     FileUtils.rm_rf path
   end
   
   def clean
-    path = Pathname.new(BASE_PATH)
+    path = Pathname.new(@base_path) + project.name + name + @database
     FileUtils.rm_rf path
   end
 end

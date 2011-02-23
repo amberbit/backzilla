@@ -1,8 +1,8 @@
 class Backzilla::Entity::MySQL < Backzilla::Entity
   include Backzilla::Executor
 
-  def initialize(name, options)
-    super(name)
+  def initialize(name, options, base_path = '/tmp/backzilla')
+    super(name, base_path)
     @database = options['database']
     @mysql_options = {
       'user' => options['user'],
@@ -15,7 +15,7 @@ class Backzilla::Entity::MySQL < Backzilla::Entity
       fatal "Database name is blank"
       exit -1
     end
-    path = Pathname.new(BASE_PATH) + project.name + name
+    path = Pathname.new(@base_path) + project.name + name
     FileUtils.mkdir_p path
     filename = path + "#{@database}.sql"
     cmd = "mysqldump #{mysql_options} #{@database} > #{filename}"
@@ -26,13 +26,13 @@ class Backzilla::Entity::MySQL < Backzilla::Entity
   
   def prepare_restore
     restore_msg
-    path = Pathname.new(BASE_PATH) + project.name + name 
+    path = Pathname.new(@base_path) + project.name + name 
     FileUtils.mkdir_p path unless File.exist?(path)
     path + "#{@database}.sql"
   end
 
   def finalize_restore 
-    path = Pathname.new(BASE_PATH) + project.name + name
+    path = Pathname.new(@base_path) + project.name + name
     path = path + "#{@database}.sql"
     Dir.glob(path).each do |dir|
       cmd = "mysql #{mysql_options} #{@database} <"+dir
@@ -42,7 +42,7 @@ class Backzilla::Entity::MySQL < Backzilla::Entity
   end 
 
   def clean
-    path = Pathname.new(BASE_PATH)
+    path = Pathname.new(@base_path) + project.name + name + "#{@database}.sql"
     FileUtils.rm_rf path
   end
 
