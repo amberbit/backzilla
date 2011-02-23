@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Wojciech Piekutowski, Paweł Sobolewski, Łukasz Mieczkowski"]
   s.email       = ["code@amberbit.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/amberbit/backzilla"
   s.summary     = %q{Backzilla is a multi-purpose backup tool based on duplicity (http://duplicity.nongnu.org)}
   s.description = %q{Backzilla is a multi-purpose backup tool based on duplicity (http://duplicity.nongnu.org)}
 
