@@ -12,7 +12,7 @@ class Backzilla::Store::FTP < Backzilla::Store
     "#{protocol}://#{uri}/#{project_name}/#{entity_name}" 
   end
 
-  def prepare_store
+  def prepare_store(project_name, entity_name)
   end
   
   def remove_uri(project_name, entity_name)

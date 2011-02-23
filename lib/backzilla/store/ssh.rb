@@ -13,7 +13,7 @@ class Backzilla::Store::SSH < Backzilla::Store
     "#{protocol}://#{uri}/#{project_name}/#{entity_name}" 
   end
 
-  def prepare_store
+  def prepare_store(project_name, entity_name)
     path = Pathname.new(@path) + project_name + entity_name
     Net::SFTP.start(@host, @user) do |sftp|
       dir = Pathname.new("")

@@ -14,7 +14,7 @@ class Backzilla::Action::Backup
     info "Storing #{path}..."    
     @stores.each do |store|
       info "Storing in #{store.name}..."
-      store.prepare_store
+      store.prepare_store(entity.project.name, entity.name)
       target = store.store_uri(entity.project.name, entity.name)   
       duplicity =  Backzilla::Duplicity.new(path, target)
       duplicity.store
