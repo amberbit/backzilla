@@ -13,6 +13,4 @@ test:
 # set these environment variables on your prod server
 production:
   host: localhost
-  username: [user]
-  password: [password]
   database: backzilla_test

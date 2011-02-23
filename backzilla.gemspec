@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Wojciech Piekutowski, Paweł Sobolewski, Łukasz Mieczkowski"]
   s.email       = ["code@amberbit.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/amberbit/backzilla"
   s.summary     = %q{Backzilla is a multi-purpose backup tool based on duplicity (http://duplicity.nongnu.org)}
   s.description = %q{Backzilla is a multi-purpose backup tool based on duplicity (http://duplicity.nongnu.org)}
 
@@ -24,6 +24,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec-mocks"
   s.add_development_dependency "rspec-expectations"
   s.add_development_dependency "rspec", "1.3.1"
-  s.add_dependency "net-ssh", "~>2.1.0" 
+  s.add_dependency "net-sftp", "~>2.0.0" 
   s.add_dependency "open4", "~>1.0.0"
 end
