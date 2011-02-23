@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 require 'fileutils'
 $LOAD_PATH.unshift "lib"
 require 'backzilla'
