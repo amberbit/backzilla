@@ -10,15 +10,18 @@ class Backzilla::Store::SSH < Backzilla::Store
   end
 
   def store_uri(project_name, entity_name)
+    "#{protocol}://#{uri}/#{project_name}/#{entity_name}" 
+  end
+
+  def prepare_store
     path = Pathname.new(@path) + project_name + entity_name
     Net::SFTP.start(@host, @user) do |sftp|
       dir = Pathname.new("")
       path.each_filename do |filename|
         dir += filename
-        sftp.mkdir! dir
+        sftp.mkdir dir
       end
     end 
-    "#{protocol}://#{uri}/#{project_name}/#{entity_name}" 
   end
  
   def remove_uri(project_name, entity_name)

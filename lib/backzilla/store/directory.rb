@@ -8,6 +8,9 @@ class Backzilla::Store::Directory < Backzilla::Store
     "#{protocol}://#{uri}/#{project_name}/#{entity_name}"
   end
 
+  def prepare_store
+  end
+
   def remove_uri(project_name, entity_name)
     "#{uri}/#{project_name}/#{entity_name}"
   end
