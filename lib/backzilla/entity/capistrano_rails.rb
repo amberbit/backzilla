@@ -5,6 +5,7 @@ class Backzilla::Entity::CapistranoRails < Backzilla::Entity
     super(name, '/tmp/backzilla') 
     @path = Pathname.new(File.expand_path(options['path']))
     @shared_directory = @path + "shared"
+    @environment = options['environment']
 
     database_type = options['database_type']
     if database_type == "MySQL"
@@ -56,9 +57,9 @@ class Backzilla::Entity::CapistranoRails < Backzilla::Entity
   def parse_yaml_file(path)
     data = YAML.load_file path
     {
-      'user' => data['production']['username'],
-      'password' => data['production']['password'],
-      'database' => data['production']['database']
+      'user' => data["#{@environment}"]['username'],
+      'password' => data["#{@environment}"]['password'],
+      'database' => data["#{@environment}"]['database']
     }
   end
 end

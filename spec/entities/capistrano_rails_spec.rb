@@ -7,7 +7,7 @@ describe "Backzilla", "Capistrano Rails" do
     before(:all) do 
       $user = "root"
       $password = "sword4fish"  
-      entity_data = {'path' => 'spec/fixtures/capistrano_rails/mysqlapp', 'database_type' => 'MySQL'}
+      entity_data = {'path' => 'spec/fixtures/capistrano_rails/mysqlapp', 'database_type' => 'MySQL', 'environment' => 'production'}
       @capistrano_rails = Backzilla::Entity::CapistranoRails.new('mysqlapp', entity_data)
       @capistrano_rails.project = Backzilla::Project.new('test')
       create_mysql_database
@@ -59,7 +59,7 @@ describe "Backzilla", "Capistrano Rails" do
     
     before(:all) do
       create_mongodb_database
-      entity_data = {'path' => 'spec/fixtures/capistrano_rails/mongoapp', 'database_type' => 'MongoDB'}
+      entity_data = {'path' => 'spec/fixtures/capistrano_rails/mongoapp', 'database_type' => 'MongoDB', 'environment' => 'production'}
       @capistrano_rails = Backzilla::Entity::CapistranoRails.new('mongoapp', entity_data)
       @capistrano_rails.project = Backzilla::Project.new('test')
     end
