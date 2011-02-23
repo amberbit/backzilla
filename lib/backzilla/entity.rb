@@ -2,6 +2,7 @@ class Backzilla::Entity
   autoload :Directory, 'backzilla/entity/directory'
   autoload :MongoDB, 'backzilla/entity/mongo_db'
   autoload :MySQL, 'backzilla/entity/my_sql'
+  autoload :CapistranoRails, 'backzilla/entity/capistrano_rails'
 
   include Backzilla::LoggerHelper
 

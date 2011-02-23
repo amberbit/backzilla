@@ -61,7 +61,7 @@ Spec::Runner.configure do |config|
   def modify_mongodb_database
      cmd =<<-CMD
        echo "use backzilla_test
-             db.users.update({name: \\"Paweł\\"},{\\$set:{name: \\"Wiesław\\"}})
+             db.users.update({name: \\"Paweł\\"},{\\$set:{name: \\"Wiesiek\\"}})
              db.users.find()" |\
        mongo
      CMD

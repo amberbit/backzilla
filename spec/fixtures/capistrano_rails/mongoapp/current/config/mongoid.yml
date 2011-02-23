@@ -1,0 +1,18 @@
+defaults: &defaults
+  host: localhost
+  raise_not_found_error: true
+
+development:
+  <<: *defaults
+  database: backzilla_test
+
+test:
+  <<: *defaults
+  database: skillsetradio_test
+
+# set these environment variables on your prod server
+production:
+  host: localhost
+  username: [user]
+  password: [password]
+  database: backzilla_test
