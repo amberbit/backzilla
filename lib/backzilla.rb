@@ -5,7 +5,10 @@ require 'logger'
 require 'fileutils'
 require 'pathname'
 
-require 'rubygems'
+if RUBY_VERSION < "1.9"
+  require 'rubygems'
+end
+
 require 'open4'
 
 class Object
