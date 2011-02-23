@@ -1,4 +1,4 @@
-require 'net/ssh'
+require 'net/sftp'
 
 class Backzilla::Store::SSH < Backzilla::Store
   def initialize(name, options)
@@ -10,8 +10,13 @@ class Backzilla::Store::SSH < Backzilla::Store
   end
 
   def store_uri(project_name, entity_name)
-    Net::SSH.start(@host, @user) do |ssh|
-      ssh.exec "mkdir -p " + @path.to_s + "/#{project_name}/#{entity_name}"
+    path = Pathname.new(@path) + project_name + entity_name
+    Net::SFTP.start(@host, @user) do |sftp|
+      dir = Pathname.new("")
+      path.each_filename do |filename|
+        dir += filename
+        sftp.mkdir! dir
+      end
     end 
     "#{protocol}://#{uri}/#{project_name}/#{entity_name}" 
   end
